@@ -1,0 +1,82 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Profil de {{user.username}}{% endblock %}
+
+{% block body %}
+    <div class="row mt-4">
+    <h1 class="text-center mb-4">Profil de {{user.username}}</h1>
+    
+    <table class="table col">
+        <tbody>
+             <tr>
+                <th>Nom</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Rôle</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td> {{ user.description }}</td>
+            </tr>
+            <tr>
+                <th>Profil</th>
+                <td>             
+                    {% if user.profil is same as 1 %}Musicien{% endif %}   
+                    {% if user.profil is same as 2 %}Technicien{% endif %} 
+                    {% if user.profil is same as 3 %}Musicien/Technicien{% endif %} 
+                </td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                {% if user.picture is not null %}
+                    <td><img src="{{ asset('images/profils/' ~ user.picture) }}" alt=""></td>
+                {% else %}
+                    <td>Aucune image</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Statut</th>
+                {% if user.status == 1 %}
+                    <td>Actif</td>
+                {% else %}
+                    <td>Inactif</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Date d'Inscription</th>
+                <td>{{ user.createdAt|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <th>Dernière mise à jour</th>
+                <td>{{ user.updatedAt is not null ? user.updatedAt|date('d M Y à H:i') }}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <h2>Ces Projets</h2>
+            <ul class="list-group list-group-flush">
+                {% for project in user.projects %}
+                    <li class="m-2 list-group-item"><a class ="btn btn-primary" href="{{ path('projects_read', { 'id': project.id }) }}">{{ project.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="m-2">
+        <a href="{{ path('users_browse') }}" class="btn btn-info">Retour à la liste</a>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <a href="{{ path('users_edit', {'id': user.id}) }}" class="btn btn-warning">Modifier</a>
+            <a href="{{ path('users_delete', {'id': user.id}) }}" class="btn btn-danger m-1">Supprimer</a>
+        {% endif %}
+    </div>
+{% endblock %}
+

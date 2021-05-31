@@ -1,0 +1,12 @@
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+<h1 class="text-center m-4">Bienvenue {{ app.user.username }}</h1>
+
+<img style="width: 100%" class="img-thumbnail mt-2" src="{{ asset('assets/images/backoffice.jpg') }}" alt="">
+
+{% endblock %}

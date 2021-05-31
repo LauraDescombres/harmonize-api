@@ -1,0 +1,18 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Selection{% endblock %}
+
+{% block body %}
+
+<h2 class="text-center m-5">Veuillez inscrire le nom d'un utilisiteur ou d'un projet</h2>
+
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+<a class="btn btn-success my-4" href="{{ path('comments_add') }}">Ajouter un commentaire</a>
+{% endif %}
+
+{{ form_start(form) }}
+    {{ form_rest(form) }}
+    <button class="btn btn-info mt-4">Rechercher</button>
+{{ form_end(form)}}
+
+{% endblock %}

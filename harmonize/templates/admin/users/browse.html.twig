@@ -1,0 +1,52 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h2 class="text-center m-5">Liste des utilisateurs</h2>
+
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+    <a class="btn btn-success mt-4" href="{{ path('users_add') }}">Ajouter un utilisateur</a>
+    {% endif %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Profil</th>
+                <th>Status</th>
+                <th>Date d'Inscription</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for user in users %}
+        <tr class="table-{{ cycle(['primary','dark'], loop.index0) }}">
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td> 
+            {% if user.profil is same as 1 %}Musicien{% endif %}   
+            {% if user.profil is same as 2 %}Technicien{% endif %} 
+            {% if user.profil is same as 3 %}Musicien/Technicien{% endif %} 
+            </td>
+            <td> 
+            {% if user.status is same as true %}Actif{% endif %}   
+            {% if user.status is same as false %}Inactif{% endif %} 
+            </td>
+            <td>{{ user.createdAt|date('d-m-Y') }}</td>
+            <td>
+                <a href="{{ path('users_read', { 'id': user.id }) }}" class="btn btn-info m-1">Afficher</a>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a href="{{ path('users_edit', {'id': user.id}) }}" class="btn btn-warning m-1">Modifier</a>
+                <a href="{{ path('users_delete', {'id': user.id}) }}" class="btn btn-danger m-1">Supprimer</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</div>
+{% endblock %}

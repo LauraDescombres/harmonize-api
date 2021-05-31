@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration Genres Musicaux{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1 class="text-center m-5">Liste des Genres de Musique</h1>
+
+    <a class="btn btn-success mt-4" href="{{ path('music_add') }}">Ajouter</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <th>Action</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+    {% for music in musicGenre %}
+        <tr class="table-{{ cycle(['primary','dark'], loop.index0) }}">
+            <td>{{ music.id }}</td>
+            <td>{{ music.name }}</td>
+            <div class="col">
+            <td>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <form action="{{ path('music_delete', {'id': music.id}) }}" method="post" class="d-inline">
+                    <button class="btn btn-danger">Supprimer</button>
+                    <input type="hidden" name="_method" value="delete">
+                </form>
+                {% endif %}
+            </td>
+            </div>
+        </tr>
+    {% endfor %}
+</div>
+{% endblock %}

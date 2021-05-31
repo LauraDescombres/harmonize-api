@@ -1,0 +1,17 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+
+<div class="example-wrapper">
+
+<h1 class="text-center m-5">Ajouter un Genre Musical</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+        <div class="mt-4">
+            <a href="{{ path('music_browse') }}" class="btn btn-info">Annuler</a>
+            <button class="btn btn-success">Ajouter</button>
+        </div>
+    {{ form_end(form)}}
+</div>
+{% endblock %}
